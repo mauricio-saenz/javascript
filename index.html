@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Satisfaccion al cliente</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+
+    #preguntas-container {
+      max-width: 600px;
+      margin: auto;
+    }
+
+    .pregunta {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .opciones {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    input[type="radio"] {
+      margin: 0 10px;
+    }
+
+    #resultado {
+      font-weight: bold;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="preguntas-container">
+    <div class="pregunta" id="pregunta1"></div>
+    <div class="opciones" id="opciones1"></div>
+
+    <div class="pregunta" id="pregunta2"></div>
+    <div class="opciones" id="opciones2"></div>
+
+    <div class="pregunta" id="pregunta3"></div>
+    <div class="opciones" id="opciones3"></div>
+
+    <div class="pregunta" id="pregunta4"></div>
+    <div class="opciones" id="opciones4"></div>
+
+    <div class="pregunta" id="pregunta5"></div>
+    <div class="opciones" id="opciones5"></div>
+
+    <button onclick="verificarRespuestas()" id="verificarBtn">Verificar</button>
+    <p id="resultado"></p>
+  </div>
+
+  <script src="index.js"></script>
+
+</body>
+</html>

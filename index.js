@@ -33,7 +33,7 @@ function mostrarPreguntas() {
       var radioBtn = document.createElement("input");
       radioBtn.type = "radio";
       radioBtn.name = "respuesta" + (index + 1);
-      radioBtn.value = opcion.split(" ")[0]; // Obtener el número del inicio de la opción
+      radioBtn.value = opcion.split(" ")[0];
       radioBtn.id = "opcion" + (index + 1) + "-" + opcionIndex;
 
       var label = document.createElement("label");
@@ -58,7 +58,7 @@ function verificarRespuestas() {
 
     opciones.forEach(function(opcion) {
       if (opcion.checked) {
-        respuestaUsuario = parseInt(opcion.value); // Convertir a número
+        respuestaUsuario = parseInt(opcion.value);
         alMenosUnaSeleccionada = true;
       }
     });
@@ -81,9 +81,19 @@ function verificarRespuestas() {
   resultadoElemento.style.color = "green";
   resultadoElemento.innerText = "Puntaje final: " + puntaje + " de 15";
 
-  // Desactivar el botón después de verificar
   document.getElementById("verificarBtn").disabled = true;
 }
 
-// Mostrar todas las preguntas al cargar la página
 mostrarPreguntas();
+
+var preguntaEspecifica = preguntas.find(function(pregunta) {
+  return pregunta.pregunta === "¿Recomendaría nuestros productos/servicios a otras personas?";
+});
+
+console.log("Pregunta Específica:", preguntaEspecifica);
+
+var opcionesConRegular = preguntas.filter(function(pregunta) {
+  return pregunta.opciones.includes("2 - Regular");
+});
+
+console.log("Opciones con Regular:", opcionesConRegular);

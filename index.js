@@ -1,4 +1,3 @@
-
 var preguntas = [
   {
     pregunta: "¿Cómo calificaría la calidad del servicio recibido?",
@@ -23,17 +22,21 @@ var preguntas = [
 ];
 
 function mostrarPreguntas() {
-  preguntas.forEach(function(pregunta, index) {
-    var preguntaElemento = document.getElementById("pregunta" + (index + 1));
-    var opcionesElemento = document.getElementById("opciones" + (index + 1));
+  var preguntasContainer = document.getElementById("preguntas-container");
 
+  preguntas.forEach(function(pregunta, index) {
+    var preguntaElemento = document.createElement("div");
+    preguntaElemento.className = "pregunta";
     preguntaElemento.innerText = pregunta.pregunta;
+
+    var opcionesElemento = document.createElement("div");
+    opcionesElemento.className = "opciones";
 
     pregunta.opciones.forEach(function(opcion, opcionIndex) {
       var radioBtn = document.createElement("input");
       radioBtn.type = "radio";
       radioBtn.name = "respuesta" + (index + 1);
-      radioBtn.value = opcion.split(" ")[0]; // Obtener el número del inicio de la opción
+      radioBtn.value = opcion.split(" ")[0];
       radioBtn.id = "opcion" + (index + 1) + "-" + opcionIndex;
 
       var label = document.createElement("label");
@@ -43,47 +46,54 @@ function mostrarPreguntas() {
       opcionesElemento.appendChild(radioBtn);
       opcionesElemento.appendChild(label);
     });
+
+    preguntasContainer.appendChild(preguntaElemento);
+    preguntasContainer.appendChild(opcionesElemento);
   });
 }
 
 function verificarRespuestas() {
-  var todasLasRespuestasSeleccionadas = true;
   var puntaje = 0;
+  var respuestas = {};
 
   preguntas.forEach(function(pregunta, index) {
     var opciones = document.getElementsByName("respuesta" + (index + 1));
     var respuestaUsuario = "";
 
-    var alMenosUnaSeleccionada = false;
-
     opciones.forEach(function(opcion) {
       if (opcion.checked) {
-        respuestaUsuario = parseInt(opcion.value); // Convertir a número
-        alMenosUnaSeleccionada = true;
+        respuestaUsuario = parseInt(opcion.value);
+        puntaje += respuestaUsuario;
+        respuestas[pregunta.pregunta] = opcion.nextSibling.textContent;
       }
     });
-
-    if (!alMenosUnaSeleccionada) {
-      todasLasRespuestasSeleccionadas = false;
-      return;
-    }
-
-    puntaje += respuestaUsuario;
   });
 
-  if (!todasLasRespuestasSeleccionadas) {
-    alert("Por favor, seleccione una opción en cada pregunta.");
-    return;
-  }
+  mostrarResultado(puntaje);
+  guardarRespuestasLocalStorage(respuestas);
+}
 
+function mostrarResultado(puntaje) {
   var resultadoElemento = document.getElementById("resultado");
   resultadoElemento.style.fontWeight = "bold";
   resultadoElemento.style.color = "green";
   resultadoElemento.innerText = "Puntaje final: " + puntaje + " de 15";
-
-  // Desactivar el botón después de verificar
-  document.getElementById("verificarBtn").disabled = true;
 }
 
-// Mostrar todas las preguntas al cargar la página
+function guardarRespuestasLocalStorage(respuestas) {
+  localStorage.setItem('encuestaRespuestas', JSON.stringify(respuestas));
+}
+
+function cargarRespuestasLocalStorage() {
+  var respuestas = localStorage.getItem('encuestaRespuestas');
+  if (respuestas) {
+    respuestas = JSON.parse(respuestas);
+    console.log("Respuestas almacenadas:", respuestas);
+  } else {
+    console.log("No hay respuestas almacenadas.");
+  }
+}
+
 mostrarPreguntas();
+
+cargarRespuestasLocalStorage();
